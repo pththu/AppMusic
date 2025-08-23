@@ -1,29 +1,27 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('./init')
 
-const Artist = sequelize.define(
-  'Artist',
+const UserRole = sequelize.define(
+  'UserRole',
   {
     id: {
       type: DataTypes.BIGINT,
       autoIncrement: true,
       primaryKey: true
     },
-    name: {
-      type: DataTypes.STRING,
+    userId: {
+      type: DataTypes.BIGINT,
       allowNull: false
     },
-    avatar: {
-      type: DataTypes.STRING
-    },
-    bio: {
-      type: DataTypes.TEXT
+    roleId: {
+      type: DataTypes.BIGINT,
+      allowNull: false
     }
   },
   {
-    tableName: 'artists',
+    tableName: 'user_roles',
     timestamps: true
   }
 )
 
-module.exports = Artist
+module.exports = UserRole

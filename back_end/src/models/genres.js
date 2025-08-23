@@ -1,8 +1,8 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('./init')
 
-const Artist = sequelize.define(
-  'Artist',
+const Genre = sequelize.define(
+  'Genre',
   {
     id: {
       type: DataTypes.BIGINT,
@@ -11,19 +11,14 @@ const Artist = sequelize.define(
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    avatar: {
-      type: DataTypes.STRING
-    },
-    bio: {
-      type: DataTypes.TEXT
+      allowNull: false,
+      unique: true
     }
   },
   {
-    tableName: 'artists',
+    tableName: 'genres',
     timestamps: true
   }
 )
 
-module.exports = Artist
+module.exports = Genre
