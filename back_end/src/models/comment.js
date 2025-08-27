@@ -2,6 +2,7 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('../configs/database')
 
+
 const Comment = sequelize.define(
   'Comment',
   {

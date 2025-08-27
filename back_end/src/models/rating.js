@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize')
 const sequelize = require('../configs/database')
-
 const Rating = sequelize.define(
   'Rating',
   {
