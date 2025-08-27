@@ -1,4 +1,4 @@
-const sequelize = require('./init')
+const sequelize = require('../configs/database')
 
 const Song = require('./song')
 const Playlist = require('./playlist')
