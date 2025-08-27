@@ -1,4 +1,4 @@
-const sequelize = require('./init')
+const sequelize = require('../configs/database')
 
 // Import all models
 const Song = require('./song')

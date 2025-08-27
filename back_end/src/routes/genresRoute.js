@@ -1,0 +1,13 @@
+const express = require('express')
+const router = express.Router()
+const controller = require('../controllers/genresController')
+
+router.get('/', controller.getAllGenre)
+router.get('/:id', controller.getGenreById)
+router.post('/', controller.createGenre)
+router.put('/:id', controller.updateGenre)
+router.delete('/:id', controller.deleteGenre)
+
+module.exports = router
+
+

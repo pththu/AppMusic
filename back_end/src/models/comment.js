@@ -1,6 +1,7 @@
 // models/comment.js
 const { DataTypes } = require('sequelize')
-const sequelize = require('./init')
+const sequelize = require('../configs/database')
+
 
 const Comment = sequelize.define(
   'Comment',

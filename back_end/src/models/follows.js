@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize')
-const sequelize = require('./init')
+const sequelize = require('../configs/database')
 
 const Follow = sequelize.define(
   'Follow',

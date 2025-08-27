@@ -1,50 +1,45 @@
 const { Artist } = require('../models');
 
-// Lấy tất cả artist
-exports.getAll = async (req, res) => {
+exports.getAllArtist = async (req, res) => {
   try {
-    const artists = await Artist.findAll();
-    res.json(artists);
+    const rows = await Artist.findAll();
+    res.json(rows);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Lấy artist theo id
-exports.getById = async (req, res) => {
+exports.getArtistById = async (req, res) => {
   try {
-    const artist = await Artist.findByPk(req.params.id);
-    if (!artist) return res.status(404).json({ error: 'Artist not found' });
-    res.json(artist);
+    const row = await Artist.findByPk(req.params.id);
+    if (!row) return res.status(404).json({ error: 'Artist not found' });
+    res.json(row);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Tạo artist mới
-exports.create = async (req, res) => {
+exports.createArtist = async (req, res) => {
   try {
-    const artist = await Artist.create(req.body);
-    res.status(201).json(artist);
+    const row = await Artist.create(req.body);
+    res.status(201).json(row);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Cập nhật artist
-exports.update = async (req, res) => {
+exports.updateArtist = async (req, res) => {
   try {
     const [updated] = await Artist.update(req.body, { where: { id: req.params.id } });
     if (!updated) return res.status(404).json({ error: 'Artist not found' });
-    const updatedArtist = await Artist.findByPk(req.params.id);
-    res.json(updatedArtist);
+    const row = await Artist.findByPk(req.params.id);
+    res.json(row);
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
 
-// Xóa artist
-exports.delete = async (req, res) => {
+exports.deleteArtist = async (req, res) => {
   try {
     const deleted = await Artist.destroy({ where: { id: req.params.id } });
     if (!deleted) return res.status(404).json({ error: 'Artist not found' });
@@ -53,3 +48,5 @@ exports.delete = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
+

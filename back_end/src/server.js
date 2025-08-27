@@ -36,11 +36,22 @@ app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(`${API_PREFIX}/uploads/avatars`, express.static(path.join(__dirname, 'uploads', 'avatars')))
 
 // API routes
-// app.use(`${API_PREFIX}/songs`, songController)
-// app.use(`${API_PREFIX}/artists`, artistController)
-// app.use(`${API_PREFIX}/albums`, albumController)
-// app.use(`${API_PREFIX}/playlists`, playlistController)
-// app.use(`${API_PREFIX}/users`, userController)
+app.use(`${API_PREFIX}/auth`, require('./routes/authRoute'))
+app.use(`${API_PREFIX}/users`, require('./routes/usersRoute'))
+app.use(`${API_PREFIX}/songs`, require('./routes/songsRoute'))
+app.use(`${API_PREFIX}/genres`, require('./routes/genresRoute'))
+app.use(`${API_PREFIX}/comments`, require('./routes/commentsRoute'))
+app.use(`${API_PREFIX}/ratings`, require('./routes/ratingsRoute'))
+app.use(`${API_PREFIX}/favorites`, require('./routes/favoritesRoute'))
+app.use(`${API_PREFIX}/follows`, require('./routes/followsRoute'))
+app.use(`${API_PREFIX}/history`, require('./routes/historyRoute'))
+app.use(`${API_PREFIX}/search`, require('./routes/searchRoute'))
+app.use(`${API_PREFIX}/notifications`, require('./routes/notificationsRoute'))
+app.use(`${API_PREFIX}/recommend`, require('./routes/recommendRoute'))
+app.use(`${API_PREFIX}/roles`, require('./routes/rolesRoute'))
+app.use(`${API_PREFIX}/artists`, require('./routes/artistsRoute'))
+app.use(`${API_PREFIX}/albums`, require('./routes/albumsRoute'))
+app.use(`${API_PREFIX}/playlists`, require('./routes/playlistsRoute'))
 
 // Start server
 async function startServer () {
