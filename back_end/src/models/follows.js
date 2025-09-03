@@ -5,24 +5,31 @@ const Follow = sequelize.define(
   'Follow',
   {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       unique: true,
       primaryKey: true
     },
     followerId: {  // user theo dõi
-      type: DataTypes.BIGINT,
-      allowNull: false
-    },
-    followingId: { // user hoặc artist được theo dõi
-      type: DataTypes.BIGINT,
-      allowNull: false
-    },
-    type: {
-      type: DataTypes.ENUM('user', 'artist'),
+      type: DataTypes.INTEGER,
       allowNull: false,
-      defaultValue: 'user'
+      field: 'follower_id',
+    },
+    userFolloweeId: { // user duoc theo doi
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'user_followee_id'
+    },
+    artistFolloweeId: { // artist duoc theo doi
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'artist_followee_id'
+    },
+    followedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: 'followed_at',
     }
   },
   {

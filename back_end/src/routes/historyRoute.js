@@ -5,8 +5,8 @@ const controller = require('../controllers/listening_historyController')
 router.get('/', controller.getAllListeningHistory)
 router.get('/:id', controller.getListeningHistoryById)
 router.post('/', controller.createListeningHistory)
-router.put('/:id', controller.updateListeningHistory)
-router.delete('/:id', controller.deleteListeningHistory)
+router.put('/update/:id', controller.updateListeningHistory)
+router.delete('/remove/:id', controller.deleteListeningHistory)
 
 module.exports = router
 

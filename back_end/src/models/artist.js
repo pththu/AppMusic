@@ -5,7 +5,7 @@ const Artist = sequelize.define(
   'Artist',
   {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
@@ -13,8 +13,9 @@ const Artist = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false
     },
-    avatar: {
-      type: DataTypes.STRING
+    imageUrl: {
+      type: DataTypes.STRING,
+      field: 'image_url'
     },
     bio: {
       type: DataTypes.TEXT

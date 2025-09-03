@@ -1,4 +1,4 @@
-const { Album } = require('../models');
+const { Album, AlbumSong, Song } = require('../models');
 
 exports.getAllAlbum = async (req, res) => {
   try {
@@ -49,4 +49,16 @@ exports.deleteAlbum = async (req, res) => {
   }
 };
 
-
+exports.getSongByAlbumId = async (req, res) => {
+  try {
+    const albumId = req.params.albumId;
+    const songs = await AlbumSong.findAll({ where: { albumId } });
+    if (!songs) return res.status(404).json({ error: 'No songs found for this album' });
+    const songData = await Promise.all(songs.map(async song => {
+      return await Song.findByPk(song.songId);
+    }));
+    res.json(songData);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}

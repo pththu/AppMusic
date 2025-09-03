@@ -7,27 +7,41 @@ const Comment = sequelize.define(
   'Comment',
   {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       unique: true,
       primaryKey: true
     },
     userId: {
-      type: DataTypes.BIGINT,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'user_id'
     },
-    songId: {
-      type: DataTypes.BIGINT,
-      allowNull: true
-    },
-    albumId: {
-      type: DataTypes.BIGINT,
-      allowNull: true
+    postId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'post_id'
     },
     content: {
       type: DataTypes.TEXT,
       allowNull: false
+    },
+    parentId: { // id comment
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      field: 'parent_id'
+    },
+    fileUrl: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      field: 'file_url'
+    },
+    commentedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: 'commented_at',
+      defaultValue: DataTypes.NOW
     }
   },
   {

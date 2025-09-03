@@ -4,23 +4,27 @@ const sequelize = require('../configs/database')
 const ListeningHistory = sequelize.define(
   'ListeningHistory',
   {
-    id: {
-      type: DataTypes.BIGINT,
-      autoIncrement: true,
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'user_id',
       primaryKey: true
     },
-    userId: {
-      type: DataTypes.BIGINT,
-      allowNull: false
-    },
     songId: {
-      type: DataTypes.BIGINT,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'song_id',
+      primaryKey: true
     },
     listenedAt: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      field: 'listened_at'
+    },
+    durationListened: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'duration_listened'
     }
   },
   {

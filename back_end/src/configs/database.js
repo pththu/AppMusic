@@ -43,7 +43,7 @@ const initializeSequelize = () => {
         host: process.env.DB_HOST,
         dialect: 'postgres',
         port: process.env.DB_PORT,
-        logging: console.log, // Hiển thị log các câu SQL (có thể tắt nếu không cần)
+        logging: false, // Hiển thị log các câu SQL (có thể tắt nếu không cần)
         dialectOptions: {
             ssl: {
                 require: true,
