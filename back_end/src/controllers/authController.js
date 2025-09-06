@@ -1,6 +1,7 @@
 const { User } = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { sendMail } = require('../utils/mailer');
 const Op = require('sequelize').Op;
 
 exports.register = async (req, res) => {
@@ -26,7 +27,8 @@ exports.register = async (req, res) => {
             { email: email.toLowerCase() }
           ]
         }
-      });
+      }
+    );
     if (existing) {
       return res.status(409).json({ message: 'Email or username already in use' });
     }
@@ -40,6 +42,13 @@ exports.register = async (req, res) => {
       notificationEnabled: true,
       roleId: 2 // user
     });
+
+    sendMail(
+      email,
+      'Welcome to Music App JT-Harmony',
+      `Hello ${username}, welcome to Music App JT-Harmony!`,
+      `<h1>Hello ${username}, welcome to Music App JT-Harmony!</h1><p>We're glad to have you on board.</p>`
+    )
 
     res.status(201).json({
       message: 'User registered successfully',

@@ -6,8 +6,9 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const bodyParser = require('body-parser')
 const { sequelize } = require('./models')
-const { API_PREFIX } = require('./utils')
+const { API_PREFIX } = require('./configs/constants')
 const { authenticateToken, optionalAuth } = require('./middlewares/authentication')
+const { sendMail } = require('./utils/mailer')
 
 const app = express()
 const server = http.createServer(app)
@@ -97,6 +98,7 @@ async function startServer() {
     server.listen(process.env.PORT || 8000, () => {
       console.log(`🎶 Music Server is running at http://localhost:${process.env.PORT || 8000}`)
     })
+
   } catch (error) {
     console.error('❌ Error starting server:', error)
   }

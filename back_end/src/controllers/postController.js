@@ -21,6 +21,28 @@ exports.getPostById = async (req, res) => {
   }
 };
 
+exports.getPostsByMe = async (req, res) => {
+  try {
+    const posts = await Post.findAll({ where: { userId: req.user.id } });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+exports.getPostsByUserId = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    if (!userId) {
+      return res.status(400).json({ error: 'User ID is required' });
+    }
+    const posts = await Post.findAll({ where: { userId } });
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 exports.createPost = async (req, res) => {
   try {
     const payload = { ...req.body };
@@ -40,28 +62,6 @@ exports.createPost = async (req, res) => {
   }
 };
 
-exports.getPostByMe = async (req, res) => {
-  try {
-    const posts = await Post.findAll({ where: { userId: req.user.id } });
-    res.json(posts);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
-exports.getPostByUserId = async (req, res) => {
-  try {
-    const { userId } = req.params;
-    if (!userId) {
-      return res.status(400).json({ error: 'User ID is required' });
-    }
-    const posts = await Post.findAll({ where: { userId } });
-    res.json(posts);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
-  }
-};
-
 exports.updatePost = async (req, res) => {
   try {
     const [updated] = await Post.update(req.body, { where: { id: req.params.id } });
@@ -75,6 +75,7 @@ exports.updatePost = async (req, res) => {
   }
 };
 
+// Delete a post by ID (only by the owner or admin)
 exports.deletePost = async (req, res) => {
   try {
     const deleted = await Post.destroy({ where: { id: req.params.id } });
@@ -86,4 +87,3 @@ exports.deletePost = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-

@@ -45,7 +45,7 @@ exports.authorizeRole = (req, res, next) => {
       return res.status(403).json({ error: 'Forbidden' });
     }
 
-    // Check if user has the required role
+    // Check if user has the required role = admin
     if (user.roleId !== 1) {
       return res.status(403).json({ error: 'Unauthorized' });
     }

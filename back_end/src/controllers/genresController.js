@@ -1,4 +1,5 @@
 const { Genre } = require('../models');
+const { Op } = require('sequelize');
 
 exports.getAllGenre = async (req, res) => {
   try {
@@ -49,4 +50,21 @@ exports.deleteGenre = async (req, res) => {
   }
 };
 
+// search?name=:name
+exports.getGenresByName = async (req, res) => {
+  try {
+    const { name } = req.query;
+    console.log(name)
+    const where = {};
+
+    if (name) {
+      where.name = { [Op.iLike]: `%${name}%` };
+    }
+
+    const genres = await Genre.findAll({ where });
+    return res.status(200).json(genres);
+  } catch (error) {
+    return res.status(500).json({ error: error.message });
+  }
+};
 
