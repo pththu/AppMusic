@@ -36,29 +36,16 @@ app.use(cookieParser())
 app.use('/static', express.static(path.join(__dirname, 'public')))
 app.use(`${API_PREFIX}/uploads/avatars`, express.static(path.join(__dirname, 'uploads', 'avatars')))
 
-// const setupRoutes = () => {
-//   const routes = [
-//     'auth', 'users', 'songs', 'genres', 'comments',
-//     'favorites', 'follows', 'history', 'search',
-//     'notifications', 'recommend', 'roles', 'artists',
-//     'albums', 'playlists', 'posts', 'albumSongs'
-//   ]
-
-//   routes.forEach(route => {
-//     app.use(`${API_PREFIX}/${route}`, require(`./routes/${route}Route`))
-//   })
-// }
-
 const setupRoutes = () => {
   // PUBLIC ROUTES
   const publicRoutes = [
     'auth',      // Login/register
-    'users',     // Quản lý profile user
     'roles'      // Admin routes
   ]
-
+  
   // PROTECTED ROUTES - Bắt buộc phải đăng nhập
   const protectedRoutes = [
+    'users',     // Quản lý profile user
     'favorites',     // Yêu thích
     'follows',       // Theo dõi
     'history',       // Lịch sử nghe nhạc

@@ -53,13 +53,10 @@ exports.search = async (req, res) => {
 exports.createUser = async (req, res) => {
   try {
     const payload = { ...req.body };
-    console.log(payload)
     if (payload.password) {
       payload.password = await bcrypt.hash(payload.password, 10);
     }
-    console.log(3)
     const row = await User.create(payload);
-    console.log(4)
     res.status(201).json(row);
   } catch (err) {
     res.status(500).json({ error: err.message + "Lỗi r" });
@@ -69,9 +66,9 @@ exports.createUser = async (req, res) => {
 exports.updateInforUser = async (req, res) => {
   try {
     const payload = { ...req.body };
-    const user = await User.findByPk(req.user.id);
+    console.log(req.user)
     console.log('payload', payload);
-    console.log('user', user);
+    const user = await User.findByPk(req.user.id);
 
     // Gắn giá trị mặc định nếu người dùng bỏ qua bước cập nhật thông tin sau khi đăng ký
     if (!payload.gender && user.gender === null) {

@@ -33,6 +33,9 @@ exports.register = async (req, res) => {
       return res.status(409).json({ message: 'Email or username already in use' });
     }
 
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    console.log(otp);
+
     const passwordHash = await bcrypt.hash(password, 10);
     const user = await User.create({
       username: username.toLowerCase(),
@@ -40,14 +43,18 @@ exports.register = async (req, res) => {
       password: passwordHash,
       emailVerified: false,
       notificationEnabled: true,
-      roleId: 2 // user
+      roleId: 2, // user,
+      otp,
+      expireOtp: Date.now() + 10 * 60 * 1000 // 10 minutes
     });
 
     sendMail(
       email,
-      'Welcome to Music App JT-Harmony',
-      `Hello ${username}, welcome to Music App JT-Harmony!`,
-      `<h1>Hello ${username}, welcome to Music App JT-Harmony!</h1><p>We're glad to have you on board.</p>`
+      'Welcome to JT-Harmony',
+      `Hello ${username}, welcome to JT-Harmony!`,
+      `<h1>Hello ${username}, welcome to JT-Harmony!</h1>
+        <p><h2>Your OTP is: ${otp}.</h2></p>
+        <p>This OTP will expire in 10 minutes.</p>`,
     )
 
     res.status(201).json({
@@ -129,7 +136,7 @@ exports.login = async (req, res) => {
 exports.me = async (req, res) => {
   try {
     const userId = req.user.id;
-
+    console.log(req.user)
     const user = await User.findByPk(userId);
     console.log(user)
     if (!user) {
@@ -218,5 +225,57 @@ exports.resetPassword = async (req, res) => {
     return res.json({ message: 'Password reset successfully' });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+exports.verifyOtpEmail = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+    const user = await User.findOne({ where: { email } });
+    console.log(otp, user, email)
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    if (user.otp !== otp) {
+      return res.status(400).json({ error: 'Invalid OTP' });
+    }
+    if (new Date() > new Date(user.expireOtp)) {
+      return res.status(400).json({ error: 'OTP expired' });
+    }
+    user.emailVerified = true;
+    user.otp = null;
+    user.expireOtp = null;
+    await user.save();
+    return res.json({ message: 'Email verified successfully' });
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' });
+  }
+};
+
+exports.reSendOtpEmail = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const user = await User.findOne({ where: { email } });
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    const otp = Math.floor(100000 + Math.random() * 900000);
+    const expireOtp = Date.now() + 10 * 60 * 1000; // 10 minutes
+    user.otp = otp;
+    user.expireOtp = expireOtp;
+    await user.save();
+
+    sendMail(
+      email,
+      'Resend OTP - JT-Harmony',
+      `Hello ${user.username}, your new OTP is: ${otp}. This OTP will expire in 10 minutes.`,
+      `<h1>Hello ${user.username}</h1>
+        <p><h2>Your new OTP is: ${otp}.</h2></p>
+        <p>This OTP will expire in 10 minutes.</p>`,
+    );
+
+    return res.json({
+      message: 'OTP resent successfully',
+      otp, // For testing purposes only. Remove in production.
+    });
+
+  } catch (error) {
+    return res.status(500).json({ error: 'Internal server error' });
   }
 }
