@@ -5,20 +5,20 @@ const sequelize = require('../configs/database')
 const FavoriteSong = sequelize.define(
   'FavoriteSong',
   {
-    id: {
-      type: DataTypes.BIGINT,
-      autoIncrement: true,
-      allowNull: false,
-      unique: true,
-      primaryKey: true
-    },
     userId: {
-      type: DataTypes.BIGINT,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'user_id'
     },
     songId: {
-      type: DataTypes.BIGINT,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'song_id'
+    },
+    likedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: 'liked_at'
     }
   },
   {

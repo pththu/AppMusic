@@ -5,25 +5,30 @@ const Album = sequelize.define(
   'Album',
   {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       unique: true,
       primaryKey: true
     },
-    artistId: {
-      type: DataTypes.BIGINT,
-      allowNull: false
-    },
     title: {
       type: DataTypes.STRING,
       allowNull: false
     },
+    artistId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'artist_id'
+    },
     coverUrl: {
-      type: DataTypes.STRING
+      type: DataTypes.STRING,
+      allowNull: false,
+      field: 'cover_url'
     },
     releaseDate: {
-      type: DataTypes.DATE
+      type: DataTypes.DATE,
+      allowNull: false,
+      field: 'release_date'
     }
   },
   {

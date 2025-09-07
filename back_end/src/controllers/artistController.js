@@ -49,4 +49,14 @@ exports.deleteArtist = async (req, res) => {
   }
 };
 
+exports.getSongByArtist = async (req, res) => {
+  try {
+    const artist = await Artist.findByPk(req.params.id);
+    if (!artist) return res.status(404).json({ error: 'Artist not found' });
 
+    const songs = await artist.getSongs();
+    res.json(songs);
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to retrieve songs' });
+  }
+}

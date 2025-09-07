@@ -5,7 +5,7 @@ const Role = sequelize.define(
   'Role',
   {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       allowNull: false,
       unique: true,
@@ -17,10 +17,6 @@ const Role = sequelize.define(
     },
     description: {
       type: DataTypes.STRING
-    },
-    roleVersion: {
-      type: DataTypes.INTEGER,
-      defaultValue: 1
     }
   },
   {

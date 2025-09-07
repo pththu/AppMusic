@@ -5,22 +5,23 @@ const SearchHistory = sequelize.define(
   'SearchHistory',
   {
     id: {
-      type: DataTypes.BIGINT,
+      type: DataTypes.INTEGER,
       autoIncrement: true,
       primaryKey: true
     },
     userId: {
-      type: DataTypes.BIGINT,
-      allowNull: false
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      field: 'user_id'
     },
-    keyword: {
+    query: {
       type: DataTypes.STRING,
       allowNull: false
     },
     searchedAt: {
       type: DataTypes.DATE,
       allowNull: false,
-      defaultValue: DataTypes.NOW
+      field: 'searched_at'
     }
   },
   {

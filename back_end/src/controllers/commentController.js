@@ -21,8 +21,30 @@ exports.getCommentById = async (req, res) => {
 
 exports.createComment = async (req, res) => {
   try {
-    const row = await Comment.create(req.body);
+    const payload = { ...req.body };
+
+    console.log(req.body)
+
+    console.log(payload)
+    if (!payload) {
+      return res.status(400).json({ error: 'Payload not specified' });
+    }
+
+    if (!payload.userId) {
+      payload.userId = req.user.id; // Gán userId từ token đã xác thực
+    }
+
+    if (!payload.postId) {
+      return res.status(400).json({ error: 'Post not identified' });
+    }
+
+    if (!payload.content && !payload.fileUrl) {
+      return res.status(400).json({ error: 'Content and file not specified' });
+    }
+
+    const row = await Comment.create(payload);
     res.status(201).json(row);
+
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

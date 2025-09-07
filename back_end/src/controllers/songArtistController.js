@@ -1,4 +1,4 @@
-const { SongArtist } = require('../models');
+const { SongArtist, Artist, Song } = require('../models');
 
 exports.getAllSongArtist = async (req, res) => {
   try {
@@ -21,10 +21,20 @@ exports.getSongArtistById = async (req, res) => {
 
 exports.createSongArtist = async (req, res) => {
   try {
-    const row = await SongArtist.create(req.body);
-    res.status(201).json(row);
-  } catch (err) {
-    res.status(500).json({ error: err.message });
+    const [song, artist] = await Promise.all([
+      Song.findByPk(req.body.songId),
+      Artist.findByPk(req.body.artistId)
+    ]);
+
+    if (!song || !artist) {
+      return res.status(404).json({ error: 'Song or Artist not found' });
+    }
+
+    song.addArtist(artist);
+    artist.addSong(song);
+    res.status(201).json({ message: 'SongArtist created successfully' });
+  } catch (error) {
+    res.status(500).json({ error: 'Failed to create SongArtist' });
   }
 };
 
@@ -48,5 +58,6 @@ exports.deleteSongArtist = async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 };
+
 
 
